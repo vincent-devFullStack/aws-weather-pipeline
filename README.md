@@ -1,5 +1,3 @@
-# aws-weather-pipeline
-
 # AWS Weather Data Pipeline
 
 ## Présentation
