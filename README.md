@@ -115,6 +115,35 @@ Athena permet une analyse **serverless**, sans gestion d’infrastructure, tout 
 
 ---
 
+## Couche métier & vues analytiques (Amazon Athena)
+
+Afin de découpler la logique métier des données techniques, le projet s’appuie sur une **couche de vues Athena** jouant le rôle de _semantic layer_.
+
+Ces vues permettent :
+
+- de centraliser les règles de calcul métier,
+- de simplifier l’accès aux données pour l’analyse,
+- d’éviter la duplication de logique côté BI ou dashboards.
+
+Les vues sont versionnées dans le dépôt Git afin de garantir :
+
+- la traçabilité,
+- la reproductibilité,
+- la cohérence des analyses.
+
+### Vues disponibles
+
+| Vue Athena                          | Description                                              | Usage                     |
+| ----------------------------------- | -------------------------------------------------------- | ------------------------- |
+| `weather_daily_metrics_by_city`     | Indicateurs météo quotidiens agrégés par ville           | Table de faits principale |
+| `weather_temperature_trend_by_city` | Évolution temporelle de la température moyenne par ville | Analyse de tendances      |
+| `weather_city_comparison`           | Comparaison inter-villes sur une période donnée          | Benchmark                 |
+| `weather_global_daily_trend`        | Indicateurs météo agrégés à l’échelle globale par jour   | Vue exécutive / synthèse  |
+
+Cette approche permet une **consommation directe des données par tout outil BI compatible SQL**, sans dépendre d’un moteur spécifique.
+
+---
+
 ## Business Intelligence (BI)
 
 Les données produites par le pipeline sont **prêtes à être consommées par un outil de BI**, via Amazon Athena comme couche d’accès SQL.
@@ -128,7 +157,8 @@ Ce point ne remet pas en cause :
 - le partitionnement,
 - ni la capacité d’exploitation analytique du pipeline.
 
-Les tables et vues Athena constituent une **couche métier directement exploitable** par tout outil de visualisation compatible SQL.
+Les vues Athena constituent une couche métier directement exploitable
+par tout outil de visualisation compatible SQL.
 
 ---
 
@@ -162,7 +192,7 @@ Objectifs :
 
 - Ajout d’une couche **Staging**
 - Intégration d’un outil BI (Amazon QuickSight ou équivalent)
-- Création de vues métier Athena
+- Ajout de nouvelles vues métier orientées cas d’usage
 - Monitoring avancé (CloudWatch)
 - Déploiement 100 % Terraform
 
